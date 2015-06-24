@@ -4,8 +4,20 @@ var request = require('request'),
     url = require('url'),
     exec = require('child_process').exec;
 
-exec('ls -al', function(err, stdout, stderr) {
-  console.log(err, stdout, stderr);
-});
+http.createServer(responseHandler).listen(8888);
+
+function responseHandler(request, response) {
+  response.writeHead(200, {"Content-Type": "text/plain"});
+  if (request.url.match("fav")) {
+    response.end("");
+    return;
+  }
+  exec('vm_stat', function(err, stdout, stderr) {
+    response.write(stdout);
+    response.end();
+  });
+}
+
+
 
 console.log(process.cwd);
