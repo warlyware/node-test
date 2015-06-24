@@ -1,1 +1,29 @@
-<b>Hello HTML</b>
+<html ng-app="fs">
+  <head>
+    <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.1/angular.min.js"></script>    
+    <script>
+      var app = angular.module('fs', []);
+      app.controller('fsCtrl', function($scope, $http) {
+        $scope.cards = [];
+        $scope.username = '';
+        $scope.addCard = function() {
+          $http.get('/' + $scope.username).success(function(data) {
+            console.log(data);
+            $scope.cards.push({ name: data.login, location: data.location });
+          });
+        };
+      });
+    </script>
+  </head>
+  <body ng-controller="fsCtrl">
+    <h4>Github Cards</h4>
+
+
+    <input type="text" ng-model="username" placeholder="github username">
+    <button ng-click="addCard(username)">add</button>
+
+    <ul>
+      <li ng-repeat='card in cards'>{{card.name}} | {{card.location}}</li>
+    </ul>
+  </body>
+</html>

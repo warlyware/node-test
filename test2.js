@@ -21,5 +21,5 @@ function responseHandler(req, res) {
       res.write(body);
       res.end();
     }
-  })
+  });
 }
